@@ -14,38 +14,34 @@ const Modal = {
 }
 // MUDAR ESSA FUNÇÃO DE CIMA PARA TOOGLE
 
-
-const transactions = [{
-        id: 1,
-        description: 'Luz',
-        amount: -50000,
-        date: '23/01/2021'
+const Storage = {
+    get() {
+        return JSON.parse(localStorage.getItem('dev.finances:transactions')) || []
     },
-    {
-        id: 2,
-        description: 'Criação website',
-        amount: 500000,
-        date: '15/01/2021'
-    },
-    {
-        id: 3,
-        description: 'Internet',
-        amount: -200012   ,
-        date: '25/01/2021'
-    },
-    {
-        id: 4,
-        description: 'App - IOS',
-        amount: 300000,
-        date: '03/02/2021'
-    },
-]
+    set(transactions) {
+        localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
+    }
+}
 
 const Transaction = {
+    all: Storage.get(),
+
+    add(transaction) {
+        Transaction.all.push(transaction)
+        
+        App.reload()
+    },
+
+    remove(index) {
+        Transaction.all.splice(index, 1)
+
+        App.reload()
+    },
+
     incomes() {
         let income = 0
 
-        transactions.forEach(transaction => {
+        Transaction.all.forEach(transaction => {
             if(transaction.amount > 0) {
                 income += transaction.amount;
             }
@@ -56,7 +52,7 @@ const Transaction = {
     expenses() {
         let expense = 0
 
-        transactions.forEach(transaction => {
+        Transaction.all.forEach(transaction => {
             if(transaction.amount < 0) {
                 expense += transaction.amount;
             }
@@ -76,12 +72,14 @@ const DOM = {
 
     addTransaction(transaction, index) {
         const tr = document.createElement('tr')
-        tr.innerHTML = DOM.innerHTMLTransaction(transaction)
+        tr.innerHTML = DOM.innerHTMLTransaction(transaction,index)
+        tr.dataset.index = index
 
         DOM.transactionContainer.appendChild(tr)
         
     },
-    innerHTMLTransaction(transaction) {
+
+    innerHTMLTransaction(transaction,index) {
         const CSSclass = transaction.amount > 0 ? "income" : "expense"
 
         const amount = Utils.formatCurrency(transaction.amount) 
@@ -91,11 +89,12 @@ const DOM = {
                 <td class="${CSSclass}">${amount}</td>
                 <td class="date">${transaction.date}</td>
                 <td>
-                    <img src="./assets/minus.svg" alt="Remover Transação">
+                    <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover Transação">
                 </td>
             `
             return html
     },
+    
     updateBalance() {
         document
             .getElementById('incomeDisplay')
@@ -108,10 +107,27 @@ const DOM = {
         document
             .getElementById('totalDisplay')
             .innerHTML = Utils.formatCurrency(Transaction.total())
+    },
+
+    clearTransactions() {
+        DOM.transactionContainer.innerHTML = ""
     }
+
 }
 
 const Utils = {
+    formatAmount(value) {
+        value = Number(value.replace(/\,\./g, "")) * 100
+
+        return value
+    },
+
+    formatDate(date) {
+        const splittedDate = date.split("-")
+
+        return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+    },
+
     formatCurrency(value){
         const signal = Number(value) < 0 ? "-" : ""
         value = String(value).replace(/\D/g,"") 
@@ -128,11 +144,100 @@ const Utils = {
 
 }
 
+const Form = {
 
-//funcionalidade para arrays, com ela posso usar uma ação para cada elemento
-// para cada transação em transações rode uma funcionalidade
-transactions.forEach(function(transaction) {
-    DOM.addTransaction(transaction)
-})
+    description: document.querySelector('input#description'),
+    amount: document.querySelector('input#amount'),
+    date: document.querySelector('input#date'),
 
-DOM.updateBalance()
+    getValues() {
+        return {
+            description: Form.description.value,
+            amount: Form.amount.value,
+            date: Form.date.value,
+        }
+    },
+
+    validateFields() {
+        const {description, amount, date} = Form.getValues()
+
+        if(description.trim() === "" || 
+           amount.trim() === "" ||
+           date.trim() === ""
+           ) {
+               throw new Error ("Por favor, preencha todos os campos")
+           }
+    },
+
+    formatValues() {
+        let {description, amount, date} = Form.getValues()
+
+        amount = Utils.formatAmount(amount)
+
+        date = Utils.formatDate(date)
+
+        return {
+            description,
+            amount,
+            date
+        }
+    },
+
+    clearFields() {
+        Form.description.value = ""
+        Form.amount.value = ""
+        Form.date.value = ""
+    },
+
+   
+    submit(event){
+        event.preventDefault()
+        // Vereficar se totas as infos estão preenchidas
+
+        try {
+        Form.validateFields()
+        //formatar os dados para Salvar
+        const transaction = Form.formatValues()
+        
+        //Salvar
+        Transaction.add(transaction)
+
+        //Apagar os dados do formulário
+        Form.clearFields()
+
+        //Modal fechar
+        Modal.close()
+
+        //Atualizar a aplicação
+        App.reload()
+
+        }catch (error){
+            alert(error.message)
+        }
+    }
+}
+
+
+const App = {
+    init() {
+        //funcionalidade para arrays, com ela posso usar uma ação para cada elemento
+        // para cada transação em transações rode uma funcionalidade
+        Transaction.all.forEach((transaction,index) => {
+            DOM.addTransaction(transaction,index)
+        })
+
+        DOM.updateBalance()
+
+        Storage.set(Transaction.all)
+    },
+    reload() {
+        DOM.clearTransactions()
+        App.init()
+
+
+    },
+}
+
+
+App.init()
+
