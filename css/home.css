@@ -24,7 +24,6 @@ a{
 
 
 .btn.new {
-
 	display: flex;
 	width: 30%;
     height: 60px;
@@ -32,9 +31,7 @@ a{
     justify-content: center;
     text-align: center;
     
-
     font-size: 1rem;
-
 }
 
 .btn:hover{
@@ -82,17 +79,11 @@ a{
 
 }
 
-.btn-back button{
-    border:none;
-    background:transparent;
-	width: 12%;
-    height: 8px;
-}
 
 /* -> Header <--------------- */
 
 header {
-	background: linear-gradient(326.54deg, #00a583 0%,rgba(0, 122, 128, 0.616)
+	background: linear-gradient(326.54deg, #079086 0%,#2b6e98
  100%);
     
     padding: 2rem 0 10rem;
