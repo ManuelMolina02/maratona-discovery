@@ -3,6 +3,8 @@
 
     margin: auto
 }
+
+
 /* -> Titles <--------------- */
 
 h2 {
@@ -41,9 +43,9 @@ a{
  
 .btn.cancel {
 
-    background-image: linear-gradient(to right, #f8f8f8, #cfcfcf1e, #fddfdf);
-    background-size: 200%;
-    color: var(--red);
+    background-image: linear-gradient(to left, #f8f8f8, #cfcfcf00, #fcdfdf);
+    background-size: -250%;
+    color: var(--grey);
     border: rgb(199, 199, 199) solid 1px;
 
     display: flex;
@@ -57,6 +59,8 @@ a{
 }
 
 .btn.cancel:hover{
+    color: var(--red);
+
     opacity: 1;	
     background-position: right;
 
@@ -72,6 +76,19 @@ a{
     align-items: center;
 
 }
+
+.btn-back{
+	width: 14%;
+
+}
+
+.btn-back button{
+    border:none;
+    background:transparent;
+	width: 12%;
+    height: 8px;
+}
+
 /* -> Header <--------------- */
 
 header {
@@ -81,12 +98,6 @@ header {
     padding: 2rem 0 10rem;
     text-align: center;
 }
-
-#logo {
-    color: white;
-    font-weight: 100;
-}
-
 
 /* -> Balance <--------------- */
 #balance {

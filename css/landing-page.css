@@ -7,7 +7,9 @@
  --title-black: #4d4d4db6;
  --subtitle-black: #4d4d4db6;
  --title-green: #00b5bf;
- --red: #ff5b5be3;
+ --red: #ff5b5b;
+ --grey: #505050af;
+
 }
 
 
@@ -51,3 +53,38 @@ body {
 	cursor: pointer;
 	transition: .5s;
 }
+
+
+div.logo{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color:white;
+
+	font-family: 'Quicksand', sans-serif;
+	font-size: 2rem;
+
+	margin-bottom: none;
+	padding-bottom: none;
+	overflow: hidden;
+	animation: hidden-move .5s;
+}
+
+h1.logo1{
+    color: #ff9339;
+    letter-spacing: 4px;
+    font-weight: 600;
+    overflow: hidden;
+    animation: fade .25s;
+
+}
+h1.logo2{
+    padding-top: 22px;
+    position: relative;
+    letter-spacing: 8px;
+    font-weight: 500;
+    overflow: hidden;
+    animation: move .25s;
+    font-size: 26px;
+}
+	

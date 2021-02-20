@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap');
+
+
 
 body{
     overflow: hidden;
@@ -266,6 +269,52 @@ a:hover{
 	}
 }
 
+
+
+/* Animation */
+
+
+.box-form {
+    overflow: hidden;
+    animation: fade .5s;
+	
+}
+  
+
+@keyframes fade {
+    from {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes move {
+    from {
+      opacity: 0;
+      transform: translateX(-35%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+  }
+
+  @keyframes hidden-move {
+    from {
+      opacity: 0;
+      transform: scale(0.3) translateY(175%);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateX(0%);
+    }
+  }
+
+
 @media screen and (max-width: 400px){
 	.box-form{
 		width: 220px;
@@ -291,3 +340,4 @@ a:hover{
 		font-size: 1rem;
 	}
 }
+

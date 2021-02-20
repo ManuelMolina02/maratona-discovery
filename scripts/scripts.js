@@ -1,3 +1,14 @@
+
+const Login = {
+
+    logIn() {
+        window.location.href = './index.html'
+    },
+    logOut() {
+        window.location.href = './login.html'
+    }
+}
+
 const Modal = {
     open() {
         document
@@ -10,7 +21,8 @@ const Modal = {
             .querySelector('.modal-overlay')
             .classList
             .remove('active');
-    }
+    },
+
 }
 // MUDAR ESSA FUNÇÃO DE CIMA PARA TOOGLE
 
@@ -117,7 +129,7 @@ const DOM = {
 
 const Utils = {
     formatAmount(value) {
-        value = Number(value.replace(/\,\./g, "")) * 100
+        value = Number(value.replace(/\,?\.?/g, "")) * 100
 
         return value
     },
