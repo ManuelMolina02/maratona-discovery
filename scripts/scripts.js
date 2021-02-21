@@ -10,7 +10,7 @@ const Login = {
 }
 
 const Modal = {
-    open() {
+    playModal() {
         document
           .getElementById('modal-transaction')
           .classList
@@ -88,7 +88,7 @@ const Diagnostic = {
 
 
             if(scoreA) {
-                return {title: `Olhaa só!!! ${remainingAmount.toFixed(1)}% sobrando? Todas as contas foram pagas?! Boa clan!`, class:'.cardScore', icon: './assets/rocket.svg' }
+                return {title: `Olhaa só!!! ${remainingAmount.toFixed(1)}% sobrando? Todas as contas foram pagas?! Boa clan!`, class:'.cardScore', icon: './assets/estrela.svg' }
             } else if (scoreB) {
                 return {title:`Hummmm! Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`, class:'.cardScore', icon: './assets/exclamacao.svg' }
             } else if (scoreC) {
