@@ -178,33 +178,8 @@ a:hover{
 	text-align: center;
 }
 
-.social-icon {
-	height: 32px;
-	width: 32px;
-	display: grid;
-	justify-content: center;
-	align-items: center;
-	margin: 0 auto;
-	color: #333;
-	border-radius: 50%;
-	border: none;
-	text-decoration: none;
-	font-size: 1.1rem;
-	transition: 0.3s;
-  }
-  
-  .social-icon:hover {
-	color: #32be8f;
-	border-color: #32be8f;
-  }
-  
-  .page-links{
-	  padding-top: 10px;
-  }
 
-  .page-links a{
-	padding-top: 4px;
-}
+
 
 .cards{
 	display: flex;

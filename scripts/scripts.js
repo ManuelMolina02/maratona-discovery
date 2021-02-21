@@ -14,14 +14,8 @@ const Modal = {
         document
           .getElementById('modal-transaction')
           .classList
-          .add('active');
-    },
-    close() {
-        document
-          .getElementById('modal-transaction')
-          .classList
-          .remove('active');
-    },
+          .toggle('active');
+    }
 
 }
 
@@ -47,7 +41,6 @@ const Transaction = {
 
     remove(index) {
         Transaction.all.splice(index, 1)
-
         App.reload()
     },
 
@@ -81,54 +74,30 @@ const Transaction = {
         return (Transaction.total()/ Transaction.incomes())*100
     },
 
+
+}
+
+const Diagnostic = {
+
     diagnosticExpenses() {
         remainingAmount = Transaction.porcentTotal()
 
-            let scoreA = remainingAmount>=60 
-            let scoreB = remainingAmount>=40 && remainingAmount<=59
-            let scoreC = remainingAmount>=20 && remainingAmount<=39 
-            let scoreD = remainingAmount>=0 && remainingAmount<=19 
-            let scoreF = remainingAmount < 0
+        let scoreA = remainingAmount>=60 
+        let scoreB = remainingAmount>=20 && remainingAmount<=59
+        let scoreC = remainingAmount<= 19
 
 
             if(scoreA) {
-                return `Olhaa só!!! ${remainingAmount.toFixed(1)}% sobrando? Todas as contas foram pagas?! Boa clan!`
+                return {title: `Olhaa só!!! ${remainingAmount.toFixed(1)}% sobrando? Todas as contas foram pagas?! Boa clan!`, class:'.cardScore', icon: './assets/rocket.svg' }
             } else if (scoreB) {
-                return `Legal! Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
+                return {title:`Hummmm! Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`, class:'.cardScore', icon: './assets/exclamacao.svg' }
             } else if (scoreC) {
-                return `Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
-            }else if (scoreD) {
-                return `Atenção! você tem apenas ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
-            }else if (scoreF) {
-                return 'Aaaah não! É hora de rever suas despesas, a conta não ta sobrando'
-            }else {
-            return 'Dados não calculaveis inseridos'}
-    },
+                return {title:`Atenção, você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`, class:'.cardScoreRed', icon: './assets/triangulo.svg' }
 
-    diagnosticIcons() {
-        remainingAmount = Transaction.porcentTotal()
-    
-            let scoreA = remainingAmount>=60 
-            let scoreB = remainingAmount>=40 && remainingAmount<=59
-            let scoreC = remainingAmount>=20 && remainingAmount<=39 
-            let scoreD = remainingAmount>=0 && remainingAmount<=19 
-            let scoreF = remainingAmount < 0
-    
-    
-            if(scoreA) {
-                return './assets/rocket.svg'
-            } else if (scoreB) {
-                return `Legal! Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
-            } else if (scoreC) {
-                return `Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
-            }else if (scoreD) {
-                return `Atenção! você tem apenas ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
-            }else if (scoreF) {
-                return 'Aaaah não! É hora de rever suas despesas, a conta não ta sobrando'
             }else {
-            return 'Dados não calculaveis inseridos'}
-        },
-
+            return {title:'Dados não calculáveis', icon: './assets/info.svg' }
+        }
+    }
 
 }
 
@@ -161,6 +130,7 @@ const DOM = {
             `
             return html
     },
+
     
     updateBalance() {
         document
@@ -176,10 +146,14 @@ const DOM = {
             .innerHTML = Utils.formatCurrency(Transaction.total())
         document
             .getElementById('diagnosticExpenses')
-            .innerHTML = Transaction.diagnosticExpenses()
+            .innerHTML = Diagnostic.diagnosticExpenses().title
         document
             .getElementById('ImageText')
-            .src = Transaction.diagnosticIcons()
+            .src = Diagnostic.diagnosticExpenses().icon
+
+
+
+
     },
 
     clearTransactions() {
