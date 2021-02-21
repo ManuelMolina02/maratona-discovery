@@ -25,7 +25,7 @@ a{
 
 .btn.new {
 	display: flex;
-	width: 30%;
+	width: 86%;
     height: 60px;
     
     justify-content: center;
@@ -131,6 +131,24 @@ header {
     color: white;
 }
 
+
+.contentsMid{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+}
+
+.contentsMid h5{
+    padding: 10px;
+    font-size: 1.2rem;
+    text-align: initial;
+    color: var(--grey);
+}
+
+.contentText{
+    display: flex;
+    justify-content: space-between;
+}
 /* -> Table <--------------- */
 #transaction{
     display: block;
@@ -234,17 +252,62 @@ td.expense {
 }
 
 #form h2 {
-    margin-top: 0;
+    margin: 0 0 3rem 0;
 }
 
-input {
+.data-input{
+    margin-top: 1.6rem;
+    height: 40px;
+    width: 100%;
+    position:relative;
+}
+
+.data-input input {
+    height: 100%;
+    width: 100%;
     border: none;
-    border-radius: .2rem;
-
-    padding: .8rem;
-
-    width: 100%
+    border-bottom: 2px solid silver
 }
+
+.data-input input:focus ~ label,
+.data-input input:valid ~ label {
+    transform: translateY(-30px);
+    font-size: 1rem;
+}
+
+.data-input label {
+    position: absolute;
+    bottom: 10px;
+    left: 2px;
+    color: grey;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    font-size: .8rem;
+}
+
+.data-input .underline {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+}
+
+.data-input .underline:before {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: var(--theme-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+
+.data-input input:focus ~ .underline:before,
+.data-input input:valid ~ .underline:before {
+    transform: scaleX(1);
+}
+
 
 .input-group {
     margin-top: .8rem;
@@ -266,6 +329,19 @@ input {
     width: 48%;
 }
 
+input[type=number]::-webkit-inner-spin-button { 
+    all: unset; 
+    min-width: 21px;
+    min-height: 45px;
+    margin: 17px;
+    padding: 0px;
+    background-image: 
+    linear-gradient(to top, transparent 0px, transparent 16px, #fff 16px, #fff 26px, transparent 26px, transparent 35px, #000 35px,#000 36px,transparent 36px, transparent 40px),
+    linear-gradient(to right, transparent 0px, transparent 10px, #000 10px, #000 11px, transparent 11px, transparent 21px);
+    transform: rotate(90deg) scale(0.8, 0.9);
+    cursor:pointer;
+  }
+  
 
 /* -> Footer <--------------- */
 
@@ -297,13 +373,13 @@ footer {
 .btn.new {
 
     display: flex;
-    width: 26%;
+    width: 86%;
     height: 48px;
     
     justify-content: center;
     text-align: center;
 
     font-size: 1rem;
-
 }
+
 }

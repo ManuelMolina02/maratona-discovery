@@ -12,18 +12,19 @@ const Login = {
 const Modal = {
     open() {
         document
-            .querySelector('.modal-overlay')
-            .classList
-            .add('active');
+          .getElementById('modal-transaction')
+          .classList
+          .add('active');
     },
     close() {
         document
-            .querySelector('.modal-overlay')
-            .classList
-            .remove('active');
+          .getElementById('modal-transaction')
+          .classList
+          .remove('active');
     },
 
 }
+
 // MUDAR ESSA FUNÇÃO DE CIMA PARA TOOGLE
 
 const Storage = {
@@ -74,7 +75,61 @@ const Transaction = {
 
     total(){
         return Transaction.incomes() + Transaction.expenses() 
-    }
+    },
+
+    porcentTotal() {
+        return (Transaction.total()/ Transaction.incomes())*100
+    },
+
+    diagnosticExpenses() {
+        remainingAmount = Transaction.porcentTotal()
+
+            let scoreA = remainingAmount>=60 
+            let scoreB = remainingAmount>=40 && remainingAmount<=59
+            let scoreC = remainingAmount>=20 && remainingAmount<=39 
+            let scoreD = remainingAmount>=0 && remainingAmount<=19 
+            let scoreF = remainingAmount < 0
+
+
+            if(scoreA) {
+                return `Olhaa só!!! ${remainingAmount.toFixed(1)}% sobrando? Todas as contas foram pagas?! Boa clan!`
+            } else if (scoreB) {
+                return `Legal! Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
+            } else if (scoreC) {
+                return `Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
+            }else if (scoreD) {
+                return `Atenção! você tem apenas ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
+            }else if (scoreF) {
+                return 'Aaaah não! É hora de rever suas despesas, a conta não ta sobrando'
+            }else {
+            return 'Dados não calculaveis inseridos'}
+    },
+
+    diagnosticIcons() {
+        remainingAmount = Transaction.porcentTotal()
+    
+            let scoreA = remainingAmount>=60 
+            let scoreB = remainingAmount>=40 && remainingAmount<=59
+            let scoreC = remainingAmount>=20 && remainingAmount<=39 
+            let scoreD = remainingAmount>=0 && remainingAmount<=19 
+            let scoreF = remainingAmount < 0
+    
+    
+            if(scoreA) {
+                return './assets/rocket.svg'
+            } else if (scoreB) {
+                return `Legal! Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
+            } else if (scoreC) {
+                return `Você tem ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
+            }else if (scoreD) {
+                return `Atenção! você tem apenas ${remainingAmount.toFixed(1)}% dos seus ganhos totais disponíveis.`
+            }else if (scoreF) {
+                return 'Aaaah não! É hora de rever suas despesas, a conta não ta sobrando'
+            }else {
+            return 'Dados não calculaveis inseridos'}
+        },
+
+
 }
 
 
@@ -119,6 +174,12 @@ const DOM = {
         document
             .getElementById('totalDisplay')
             .innerHTML = Utils.formatCurrency(Transaction.total())
+        document
+            .getElementById('diagnosticExpenses')
+            .innerHTML = Transaction.diagnosticExpenses()
+        document
+            .getElementById('ImageText')
+            .src = Transaction.diagnosticIcons()
     },
 
     clearTransactions() {
@@ -129,9 +190,8 @@ const DOM = {
 
 const Utils = {
     formatAmount(value) {
-        value = Number(value.replace(/\,?\.?/g, "")) * 100
-
-        return value
+        value = value * 100
+        return Math.round(value)
     },
 
     formatDate(date) {
