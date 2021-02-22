@@ -252,7 +252,7 @@ const Form = {
         Form.clearFields()
 
         //Modal fechar
-        Modal.close()
+        Modal.playModal()
 
         //Atualizar a aplicação
         App.reload()
